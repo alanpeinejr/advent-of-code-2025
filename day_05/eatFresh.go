@@ -13,10 +13,6 @@ func main() {
   ranges, ingredients := parseInput(readInput())
   fmt.Println(findTotalfreshIngredients(ranges, ingredients))
   //part 2
-  //sorting ranges for debugging
-  slices.SortFunc(ranges, func(a, b Range) int {
-    return a.Min - b.Min
-  })
   fmt.Println(sumRanges(reduceRanges(ranges)))
   
 }
@@ -24,14 +20,17 @@ func main() {
 func sumRanges(ranges []Range) int {
   total := 0
   for _, r := range ranges {
-    fmt.Println(r.Min, r.Max)
     total += (r.Max - r.Min) + 1
   }
   return total
 }
 
 func reduceRanges(ranges []Range) []Range {
+  slices.SortFunc(ranges, func(a, b Range) int {
+    return a.Min - b.Min
+  })
   //ranges in data overlap so lets reduce them into a new list of ranges that doesnt overlap
+  //sorting ranges
   reducedRanges := []Range{}
   for _, original := range ranges {
     added := false
